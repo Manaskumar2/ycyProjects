@@ -1,14 +1,5 @@
 const userModel = require("../models/userModel")
 
-const signUp = async(req,res)=> {
-    try {
-        
-    } catch (error) {
-        
-    }
-}
-
-module.exports = {signUp}
 
 
 const signIn = async(req,res) {
@@ -38,3 +29,5 @@ const signIn = async(req,res) {
         res.status(500).send({ status:false, error: error.message })
       }
 }
+
+module.exports = {signUp,signIn}

@@ -28,4 +28,4 @@ app.use('/', route)
 
 app.listen(process.env.PORT, function () {
     console.log(`Express app running on ${PORT}`)
-});
+})

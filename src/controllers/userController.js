@@ -7,7 +7,7 @@ const signUp = async(req,res)=> {
     try {
       const data = req.body;
  
-      let {name, email, password } = data;
+      let {name, email,phone, password,confirmPassword } = data;
   
       if (!name)
         return res.status(400).send({ status: false, message: `Username is Required` });
@@ -29,6 +29,12 @@ const signUp = async(req,res)=> {
       if (!validation.isValidPwd(password))
         return res.status(400).send({status: false,message: "Password should be 8-15 characters long and must contain one of 0-9,A-Z,a-z and special characters",
         });
+      if(!validation.isValidPwd(confirmPassword))
+      return res.status(400).send({status: false,message: "Password should be 8-15 characters long and must contain one of 0-9,A-Z,a-z and special characters",})
+
+    if(password!==confirmPassword){
+    return res.status(400).send({status:false,message:"Password does not match"})
+    }
   
       const hashedPassword = await bcrypt.hash(password, 10);
 

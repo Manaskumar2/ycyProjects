@@ -1,27 +1,31 @@
-const express = require('express')
-const mongoose = require('mongoose')
+const dotenv = require("dotenv")
+const express = require('express');
+const route = require('./routes/route');
+const mongoose = require('mongoose');
+const app = express();
+const multer = require("multer")
+const cors = require("cors")
 
-const app =express();
-const route=require('./Router/Route')
-const multer=require('multer')
+app.use(cors())
+app.use(express.json());
+const upload = multer();
+app.use(upload.any());
 
-app.use(express.json())
-app.use(multer().any())
+dotenv.config({path:"./config.env"})
+let DATABASE = process.env.DATABASE
+let PORT = process.env.PORT
+
+mongoose.set('strictQuery', true)
+mongoose.connect(DATABASE, {
+    useNewUrlParser: true
+})
+.then(() => console.log("MongoDb is connected"))
+.catch(err => console.log(err))
 
 
-mongoose.connect("mongodb+srv://manaskumar:iFVJhjYrsH7iars8@cluster0.s4pqkzd.mongodb.net/ycyProjects?retryWrites=true&w=majority",
-{
-    useNewUrlparser:true
-}
+app.use('/', route)
 
 
-)
-
-.then(()=>console.log("MongoDb connected"))
-.catch((err)=>console.log(err))
-
-app.use("/",route);
-
-app.listen(process.env.PORT|| 3000,function(){
-    console.log("Port running on "+(process.env.PORT||3000));
+app.listen(process.env.PORT, function () {
+    console.log(`Express app running on ${PORT}`)
 });

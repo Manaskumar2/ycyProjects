@@ -44,6 +44,13 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    isVerified: {
+        type: Boolean,
+        require: true
+    },
+    emailToken: {
+        type: String
+    }
   },{timestamps:true})
 
   module.exports = mongoose.model("USER",userSchema)

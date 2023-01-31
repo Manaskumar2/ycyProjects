@@ -50,7 +50,15 @@ const userSchema = new mongoose.Schema({
     },
     emailToken: {
         type: String
-    }
+    },
+    restrictions: {
+      type: String,
+      default: '',
+    },
+    desiredClass: {
+      type: String,
+      default: '',
+    },
   },{timestamps:true})
 
   module.exports = mongoose.model("USER",userSchema)

@@ -77,17 +77,17 @@ const signUp = async (req, res) => {
 
         const createUser = await userModel.create(data)
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            service: "gmail",
+            host: 'smtpout.secureserver.net',
+            secureConnection: true,
             port: 465,
             auth: {
-                user: 'soubhagyasamal2345@gmail.com',
-                pass: process.env.PASS
-            }
+                user: 'admin@ycyclass.in',
+                pass: "YcyCLASS@Admin504"
+            },
         });
 
           let info = {
-            from: '"soubhagyasamal2345@gmial.com',
+            from: 'admin@ycyclass.in',
             to: email,
             subject: "Hello ✔",
             text: "verify-email",

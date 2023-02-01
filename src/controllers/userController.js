@@ -10,20 +10,22 @@ const randmostring =require('randomstring')
 const sendSetPasswordmail =(name,email,emailToken)=>{
     try {
 
-             const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            service: "gmail",
+         const transporter = nodemailer.createTransport({
+            host: 'smtpout.secureserver.net',
+            secureConnection: true,
             port: 465,
             auth: {
-                user: 'soubhagyasamal2345@gmail.com',
-                pass: process.env.PASS
-            }
+                user: 'admin@ycyclass.in',
+                pass: "YcyCLASS@Admin504"
+            },
         });
+
           let info = {
-            from: '"soubhagyasamal2345@gmial.com',
+            from: 'admin@ycyclass.in',
             to: email,
-            subject: "for reset password",
-            html: `<p> Hii ${name}!Please copy the link and<a href="http://localhost3000/user/reset-passoword?token=${emailToken}">reset your password</a>`
+            subject: "Hello ✔",
+            text: "verify-email",
+            html: `Hii ${name} copy the link and<a href="http://${req.headers.host}/user/reset-password?token=${emailToken}">reset your password</a>`
           } 
           transporter.sendMail(info,function(error,information){
             if(error){
@@ -93,7 +95,7 @@ const signUp = async (req, res) => {
             text: "verify-email",
             html: `<h2>${name}! Thanks for registering on our site</h2>
                   <h4><Please verify your mail to continue...</h4>
-                  <a href="http://${req.headers.host}/user/verify-email?token=${data.emailToken}">verify your email</a>`
+                  <a href="http://${req.headers.host}/user/verify-email?emailToken=${data.emailToken}">verify your email</a>`
           } 
 
           transporter.sendMail(info,(err,info)=> {

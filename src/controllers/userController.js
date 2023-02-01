@@ -4,6 +4,43 @@ const jwt = require('jsonwebtoken')
 const crypto = require("crypto")
 const bcrypt = require("bcryptjs")
 const nodemailer = require("nodemailer")
+const randmostring =require('randomstring')
+
+
+const sendSetPasswordmail =(name,email,emailToken)=>{
+    try {
+
+             const transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            service: "gmail",
+            port: 465,
+            auth: {
+                user: 'soubhagyasamal2345@gmail.com',
+                pass: process.env.PASS
+            }
+        });
+          let info = {
+            from: '"soubhagyasamal2345@gmial.com',
+            to: email,
+            subject: "for reset password",
+            html: `<p> Hii ${name}!Please copy the link and<a href="http://localhost3000/user/reset-passoword?token=${emailToken}">reset your password</a>`
+          } 
+          transporter.sendMail(info,function(error,information){
+            if(error){
+                console.log(error)
+            }
+            else{
+                console.log("mail has been sent:-",information.response)
+            }
+          })
+
+        
+    } catch (error) {
+         res.status(500).send({ status: false, error: error.message })
+        
+    }
+}
+
 
 const signUp = async (req, res) => {
 
@@ -123,4 +160,46 @@ const signIn = async (req, res) => {
     }
 }
 
-module.exports = { signUp, signIn,verify_email }
+
+const forget_password = async(req,res)=>{
+    try {
+        const email =req.body.email
+
+        const userData = await userModel.findOne({email:email})
+
+        if(userData){
+            const randamString =randmostring.generate()
+            const data= await userModel.updateOne({email:email},{$set:{emailToken:randamString}})
+
+            sendSetPasswordmail(userData.name,userData.email,randamString)
+            res.status(200).send({status:true,message:"please check your inbox of email"})
+
+        }
+        
+    } catch (error) {
+         res.status(500).send({ status: false, error: error.message })
+    }
+}
+
+const reset_password = async(req,res)=>{
+    try {
+        const emailToken = req.query.emailToken
+        const tokenData = await userModel.findOne({emailToken:emailToken})
+
+        if(tokenData){
+            const password= req.body.password
+            const hashedPassword = await bcrypt.hash(password, 10)
+            const updatedPassword = await userModel.findByIdAndUpdate({_id:tokenData._id},{$set:{password:hashedPassword,emailToken:''}},{new:true})
+            res.status(201).send({ status: true,message:"suceesfull update your password",data:updatedPassword })
+
+        }else{
+            res.status(201).send({ status: true,message:"This link has been expried" })
+        }
+        
+    } catch (error) {
+         res.status(500).send({ status: false, error: error.message })
+        
+    }
+}
+
+module.exports = { signUp, signIn,verify_email,forget_password,reset_password }

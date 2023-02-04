@@ -64,6 +64,9 @@ const questionSchema = new mongoose.Schema(
             ref: 'USER',
             required: true,
         },
+        photo: {
+            type: String
+        }
     }, { timestamps: true })
 
 module.exports = mongoose.model("QUESTION", questionSchema)

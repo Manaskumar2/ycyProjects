@@ -9,7 +9,7 @@ const authentication = (req, res, next) => {
   
       let bearerToken = bearerHeader.split(' ')
       let token = bearerToken[1];
-      jwt.verify(token, "Job_Portal_Xhipment", function (err, data) {
+      jwt.verify(token, process.env.SECRET_KEY, function (err, data) {
         if (err) {
           return res.status(400).send({ status: false, message: err.message })
         } else {
@@ -21,3 +21,5 @@ const authentication = (req, res, next) => {
       res.status(500).send({ status: false, error: err.message })
     }
   }
+
+  module.exports = {authentication}

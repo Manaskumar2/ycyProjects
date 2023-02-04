@@ -7,7 +7,7 @@ const isValid = (value) => {
 }
 const isValidBody = (reqBody) => {
     if(Object.keys(reqBody).length == 0) {
-        return false
+        return true
     }
 }
 const isValidObjectId = (objectId) => {
@@ -26,4 +26,55 @@ const isValidPwd = (Password) => {
     return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,15}$/.test(Password)
 };
 
-module.exports = {isValid, isValidBody, isValidPhone, isValidEmail,isValidPwd, isValidObjectId, isValidName}
+const isValidSubject = (subject)=> {
+    return ([
+        "Math",
+        "Physics",
+        "Biology",
+        "Accountancy",
+        "Business Study",
+        "Economics",
+        "Current Affair",
+        "Reasoning",
+        "Quantitative Aptitude",
+        "Business Studies",
+        "Sociology",
+        "Political Science",
+        "Current Affairs",
+        "Environmental Science",
+        "English",
+        "Law",
+        "Engineering",
+        "Medical",
+        "Geography",
+        "Computer Science",
+        "History",
+        "Geology",
+        "Hindi",
+        "General Knowledge",
+        "Odia",
+        "Science",
+        "Social studies",
+        "Indian Language",
+        "France",
+        "German",
+        "Spanis",
+        "US History",
+        "C",
+        "C++",
+        "JAVA",
+        "JAVASCRIPT",
+        "PYTHON",
+        "Data Structure",
+        "Tourism",
+        "Mass Communication",
+        "Introduction Law",
+        "Urban Studies",
+    ].includes(subject))
+}
+
+const isValidImage = (fileName)=> {
+    return (/\.(gif|jpe?g|tiff?|png|webp|bmp)$/i).test(fileName)
+}
+
+module.exports = {isValid, isValidBody, isValidPhone, isValidEmail,isValidPwd, isValidObjectId, isValidName,isValidSubject,isValidImage}
